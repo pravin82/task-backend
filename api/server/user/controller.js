@@ -22,6 +22,24 @@ class UserController {
     }
   }
 
+  static async getUsers(req, res) {
+    try {
+      const allUsers = await UserService.getUsers(req, res);
+      console.log("allUsers+++++", allUsers)
+      if (allUsers.length > 0) {
+        util.setSuccess(200, 'Users retrieved', allUsers);
+      } else {
+        util.setSuccess(200, 'No user found');
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+  
+
 }
 
 export default UserController;
