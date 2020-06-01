@@ -1,5 +1,7 @@
 import UserService from './service';
 import Util from '../utils/utils';
+import {Sequelize}  from 'sequelize';
+const Op = Sequelize.Op;
 
 const util = new Util();
 
@@ -24,8 +26,14 @@ class UserController {
 
   static async getUsers(req, res) {
     try {
-      const allUsers = await UserService.getUsers(req, res);
-      console.log("allUsers+++++", allUsers)
+      let{surname, name} = req.query;
+      let whereClause = {};
+      if(name) whereClause.name = {[Op.like]: '%' + name + '%'};
+      if(surname) whereClause.surname = {[Op.like]: '%' + surname + '%'}
+      
+      console.log("whereClause++++", whereClause)
+      const allUsers = await UserService.getUsers(whereClause);
+
       if (allUsers.length > 0) {
         util.setSuccess(200, 'Users retrieved', allUsers);
       } else {

@@ -1,6 +1,5 @@
 import database from '../src/models';
-import {Sequelize}  from 'sequelize';
-const Op = Sequelize.Op;
+
 
 class UserService {
   
@@ -12,10 +11,8 @@ class UserService {
     }
   }
 
-  static async getUsers(req, res) {
+  static async getUsers(whereClause) {
     try {
-      let whereClause = {name:  {[Op.like]: '%p%'}};
-      whereClause.surname = {[Op.like]: '%t%'}
       return await database.User.findAll({
         where: whereClause
       });
