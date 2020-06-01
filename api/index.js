@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './server/user/routes';
 import projectRoutes from './server/project/routes';
+import taskRoutes from './server/task/routes';
+
 
 
 const app = express();
@@ -11,6 +13,8 @@ const port = process.env.PORT || 4000;
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/project', projectRoutes);
+app.use('/api/v1/task', taskRoutes);
+
 
 
 app.get('*', (req, res) => res.status(200).send({

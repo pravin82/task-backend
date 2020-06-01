@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {type:DataTypes.STRING, allowNull:false},
     body: {type: DataTypes.TEXT},
     status: {type:DataTypes.ENUM('active',"inactive","declined","completed"), allowNull:false},
-    assigner_id: {DataTypes.INTEGER, allowNull:false}
+    assigner_id: {type:DataTypes.INTEGER, allowNull:false}
   }, {});
   Project.associate = function(models) {
     // associations can be defined here
