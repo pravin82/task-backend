@@ -9,6 +9,15 @@ class TaskService {
       throw error;
     }
   }
+
+  static async addTaskAssignee(taskAssignee) {
+    try {
+      return await database.taskAssignee.create(taskAssignee);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   
 }
 

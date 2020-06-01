@@ -22,6 +22,23 @@ class TaskController {
     }
   }
 
+   static async addTaskAssignee(req, res) {
+    const {task_id, assignee_id }= req.body;
+    if (!(assignee_id && task_id)) {
+      util.setError(400, 'Please provide all the fields');
+      return util.send(res);
+    }
+    const taskAssignee = req.body;
+    try {
+      const createdTaskAssignee = await TaskService.addTaskAssignee(taskAssignee);
+      util.setSuccess(201, 'Task Assignee Added!', createdTaskAssignee);
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error.message);
+      return util.send(res);
+    }
+  }
+
 }
 
 export default TaskController;

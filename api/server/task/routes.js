@@ -8,4 +8,8 @@ router.post('/', function(req, res){
   TaskController.addTask(req, res)
 });
 
+router.post('/assignee', function(req, res){
+  TaskController.addTaskAssignee(req, res)
+});
+
 export default router;

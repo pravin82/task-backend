@@ -9,6 +9,17 @@ class ProjectService {
       throw error;
     }
   }
+
+  static async addProjectAssignee(projectAssignee) {
+    try {
+      return await database.projectAssignee.create(projectAssignee);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
   
 }
 
