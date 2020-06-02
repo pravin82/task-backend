@@ -31,7 +31,6 @@ class UserController {
       if(name) whereClause.name = {[Op.like]: '%' + name + '%'};
       if(surname) whereClause.surname = {[Op.like]: '%' + surname + '%'}
       
-      console.log("whereClause++++", whereClause)
       const allUsers = await UserService.getUsers(whereClause);
 
       if (allUsers.length > 0) {
