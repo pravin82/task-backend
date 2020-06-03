@@ -38,6 +38,37 @@ class TaskController {
       return util.send(res);
     }
   }
+/*
+  static getWhereClause(query){
+    const {minScore, maxScore, assigner_name, assigner_surname,
+           assignee_name, assignee_surname, assignee_id,  statusArr} = req.query
+    let whereClause = {}
+    if()
+  }
+*/
+
+  static async getTasks(req, res) {
+    try {
+      let{surname, name} = req.query;
+      let whereClause = {};
+      if(name) whereClause.name = {[Op.like]: '%' + name + '%'};
+      if(surname) whereClause.surname = {[Op.like]: '%' + surname + '%'}
+      
+      const allUsers = await UserService.getUsers(whereClause);
+
+      if (allUsers.length > 0) {
+        util.setSuccess(200, 'Users retrieved', allUsers);
+      } else {
+        util.setSuccess(200, 'No user found');
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(400, error);
+      return util.send(res);
+    }
+  }
+
+
 
 }
 

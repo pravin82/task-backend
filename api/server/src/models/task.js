@@ -4,12 +4,15 @@ module.exports = (sequelize, DataTypes) => {
     name: {type:DataTypes.STRING, allowNull:false},
     description: {type:DataTypes.TEXT},
     status: {type:DataTypes.ENUM('active',"inactive","declined","completed"), allowNull:false},
-    assigner_id: {type:DataTypes.INTEGER, allowNull:false},
     score: {type:DataTypes.INTEGER},
-    project_id: {type:DataTypes.INTEGER, allowNull:false}
   }, {});
   Task.associate = function(models) {
-    // associations can be defined here
+    Task.belongsTo(models.User, {as: 'Assigner'});
+    Task.belongsTo(models.Project);
+    Task.belongsToMany(models.User, { 
+    through: 'AssigneeTask', // many-to-many relationship table name
+    as: 'AssigneeTask' // alias
+})
   };
   return Task;
 };
