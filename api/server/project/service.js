@@ -18,6 +18,29 @@ class ProjectService {
     }
   }
 
+  static async getProjects(filters) {
+    try {
+      return await database.Project.findAll({
+        include: [
+        {
+          model: database.User,
+          as: 'Assigner',
+          where: filters.assigner 
+        },
+        { model:database.User,
+          as: 'Assignee',
+          where: filters.assignee
+
+        }
+        ],
+        where:filters.project
+      });
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   
 }
 

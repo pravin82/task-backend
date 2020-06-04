@@ -1,5 +1,7 @@
 import TaskService from './service';
 import Util from '../utils/utils';
+import {Sequelize}  from 'sequelize';
+const Op = Sequelize.Op;
 
 const util = new Util();
 
@@ -31,21 +33,58 @@ class TaskController {
     }
   }
 
+  
+
+static getFilter(req){
+
+  try {
+     let assignerFilter = {}
+     let taskFilter = {}
+     let assigneeFilter = {}
+     let{assignerSurname, assignerName, description, minScore, maxScore,
+         statusArr, name, assigneeName, assigneeSurname } = req.query
+
+    if(statusArr) statusArr = statusArr.split(',');
+
+    if(assignerName) assignerFilter.name = assignerName
+    if(assignerSurname) assignerFilter.surname = assignerSurname
+    if(description) taskFilter.description = description
+    if(minScore || maxScore) {
+      if(minScore && maxScore)  taskFilter.score = { [Op.gte]: minScore , [Op.lte]: maxScore}
+      else if(minScore) taskFilter.score = { [Op.gte]: minScore}
+      else taskFilter.score = { [Op.lte]: maxScore}
+    }
+    if(statusArr) taskFilter.status = {[Op.or] :statusArr}
+    if(name) taskFilter.name = name
+    if(assigneeName) assigneeFilter.name = assigneeName
+    if(assigneeSurname) assigneeFilter.surname = assigneeSurname
+    return {
+      assigner:assignerFilter,
+      task:taskFilter,
+      assignee:assigneeFilter
+    }
+
+  } catch(error) {
+    console.log(error)
+    throw error
+  }
+   
+}
+
 
 
   static async getTasks(req, res) {
     try {
-      let{surname, name} = req.query;
-      let whereClause = {};
-      if(name) whereClause.name = {[Op.like]: '%' + name + '%'};
-      if(surname) whereClause.surname = {[Op.like]: '%' + surname + '%'}
+      console.log("caleddgettss+++++")
+      let filters = this.getFilter(req)
+      console.log("whereClause++++", filters)
       
-      const allUsers = await UserService.getUsers(whereClause);
-
-      if (allUsers.length > 0) {
-        util.setSuccess(200, 'Users retrieved', allUsers);
+      const allTasks = await TaskService.getTasks(filters);
+      console.log("allTasks")
+      if (allTasks.length > 0) {
+        util.setSuccess(200, 'Tasks retrieved', allTasks);
       } else {
-        util.setSuccess(200, 'No user found');
+        util.setSuccess(200, 'No Task found');
       }
       return util.send(res);
     } catch (error) {
@@ -53,6 +92,8 @@ class TaskController {
       return util.send(res);
     }
   }
+
+  
 
 
 

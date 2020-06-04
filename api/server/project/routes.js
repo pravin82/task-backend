@@ -8,9 +8,8 @@ router.post('/', function(req, res){
   ProjectController.addProject(req, res)
 });
 
-router.post('/assignee', function(req, res){
-  ProjectController.addProjectAssignee(req, res)
+router.get('/', function(req, res){
+  ProjectController.getProjects(req, res)
 });
-
 
 export default router;
