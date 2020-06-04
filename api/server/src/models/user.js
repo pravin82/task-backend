@@ -6,14 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     surname: DataTypes.STRING
   }, {});
   User.associate = function(models) {
-  	User.belongsToMany(models.Task, { 
-    through: 'Assignee_Task', // many-to-many relationship table name
-    as: 'AssigneeTask' // alias
+  User.belongsToMany(models.Task, { 
+   through: 'AssigneeTask', // many-to-many relationship table name
+   as: 'Task' ,
+   foreignKey: 'assigneeId' 
     });
 
     User.belongsToMany(models.Project, { 
-    through: 'Assignee_Project', // many-to-many relationship table name
-    as: 'AssigneeProject' // alias
+    through: 'AssigneeProject', // many-to-many relationship table name
+    as: 'Project',
+    foreignKey: 'assigneeId' // alias
     });
 
     // associations can be defined here

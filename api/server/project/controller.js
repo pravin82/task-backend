@@ -6,8 +6,8 @@ const util = new Util();
 class ProjectController {
 
   static async addProject(req, res) {
-    const {name, body, assigner_id, status} = req.body;
-    if (!(name && assigner_id && status)) {
+    const {name, body, assignerId, status,  assigneeIdArr} = req.body
+    if (!(name && assignerId && status  && assigneeIdArr)) {
       util.setError(400, 'Please provide all the fields');
       return util.send(res);
     }
@@ -15,24 +15,17 @@ class ProjectController {
     try {
       const createdProject = await ProjectService.addProject(newProject);
       util.setSuccess(201, 'ProjectAdded!', createdProject);
+      
+      assigneeIdArr.forEach((item) => {
+        let assigneeProject = {
+          assigneeId: item,
+          projectId:createdProject.id
+        }
+    const savedAssigneeProject =  ProjectService.addAssigneeProject(assigneeProject);
+      });
+      util.setSuccess(201, 'Project Added!', createdProject);
       return util.send(res);
-    } catch (error) {
-      util.setError(400, error.message);
-      return util.send(res);
-    }
-  }
-
-  static async addProjectAssignee(req, res) {
-    const {project_id, assignee_id }= req.body;
-    if (!(assignee_id && project_id)) {
-      util.setError(400, 'Please provide all the fields');
-      return util.send(res);
-    }
-    const projectAssignee = req.body;
-    try {
-      const createdProAssignee = await ProjectService.addProjectAssignee(projectAssignee);
-      util.setSuccess(201, 'Project Assignee Added!', createdProAssignee);
-      return util.send(res);
+    
     } catch (error) {
       util.setError(400, error.message);
       return util.send(res);
@@ -40,5 +33,6 @@ class ProjectController {
   }
 
 }
+  
 
 export default ProjectController;

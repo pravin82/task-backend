@@ -10,15 +10,13 @@ class ProjectService {
     }
   }
 
-  static async addProjectAssignee(projectAssignee) {
+  static async addAssigneeProject(assigneeProject) {
     try {
-      return await database.projectAssignee.create(projectAssignee);
+      return await database.AssigneeProject.create(assigneeProject);
     } catch (error) {
       throw error;
     }
   }
-
-
 
   
 }

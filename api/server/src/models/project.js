@@ -6,10 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     status: {type:DataTypes.ENUM('active',"inactive","declined","completed"), allowNull:false},
   }, {});
   Project.associate = function(models) {
-   Project.belongsTo(User, {as: 'Assigner'});
+   Project.belongsTo(models.User, {as: 'Assigner'});
    Project.belongsToMany(models.User, { 
     through: 'AssigneeProject', // many-to-many relationship table name
-    as: 'AssigneeProject' // alias
+    as: 'Assignee' // alias
    });
   };
   return Project;

@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const AssigneeTask = sequelize.define('AssigneeTask', {
     assigneeId: DataTypes.INTEGER,

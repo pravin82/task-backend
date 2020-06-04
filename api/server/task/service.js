@@ -10,9 +10,9 @@ class TaskService {
     }
   }
 
-  static async addTaskAssignee(taskAssignee) {
+  static async addAssigneeTask(assigneeTask) {
     try {
-      return await database.taskAssignee.create(taskAssignee);
+      return await database.AssigneeTask.create(assigneeTask);
     } catch (error) {
       throw error;
     }
