@@ -6,8 +6,8 @@ const util = new Util();
 class ProjectController {
 
   static async addProject(req, res) {
-    const {name, body, assignerId, status,  assigneeIdArr} = req.body
-    if (!(name && assignerId && status  && assigneeIdArr)) {
+    const {name, body, AssignerId, status,  assigneeIdArr} = req.body
+    if (!(name && AssignerId && status  && assigneeIdArr)) {
       util.setError(400, 'Please provide all the fields');
       return util.send(res);
     }

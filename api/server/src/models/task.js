@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     description: {type:DataTypes.TEXT},
     status: {type:DataTypes.ENUM('active',"inactive","declined","completed"), allowNull:false},
     score: {type:DataTypes.INTEGER},
-    AssignerId:{type:DataTypes.INTEGER},
-    ProjectId:{type:DataTypes.INTEGER}
+    AssignerId:{type:DataTypes.INTEGER, allowNull:false},
+    ProjectId:{type:DataTypes.INTEGER, allowNull:false}
 
   }, {});
   Task.associate = function(models) {

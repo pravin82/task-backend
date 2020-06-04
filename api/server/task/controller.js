@@ -7,7 +7,7 @@ class TaskController {
 
   static async addTask(req, res) {
     const {name, description, AssignerId, status, score, ProjectId, assigneeIdArr} = req.body
-    if (!(name && AssignerId && status && ProjectId )) {
+    if (!(name && AssignerId && status && ProjectId && assigneeIdArr)) {
       util.setError(400, 'Please provide all the fields');
       return util.send(res);
     }
@@ -20,7 +20,6 @@ class TaskController {
          assigneeId: item,
          taskId:createdTask.id
         }
-        console.log("assig++++++",JSON.stringify(assigneeTask))
         const savedAssigneeTask =  TaskService.addAssigneeTask(assigneeTask);
       })
       util.setSuccess(201, 'Task Added!', createdTask);
